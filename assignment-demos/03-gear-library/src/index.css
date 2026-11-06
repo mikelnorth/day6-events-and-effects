@@ -1,0 +1,366 @@
+/* Gear Library: a tool crib. Grid layout is manila tags on a pegboard,
+   compact layout is the checkout ledger on a clipboard. */
+
+:root {
+  color-scheme: light;
+
+  --board: #c79a66;
+  --board-hole: #6f4c2a;
+  --ink: #1c1a17;
+  --ink-soft: #4d4539;
+  --manila: #f6e9c8;
+  --manila-edge: #d9c594;
+  --ledger: #fbf8ee;
+  --ledger-line: #cfc6ab;
+  --safety: #f2c200;
+  --in: #1f5c3a;
+  --out: #a32a1c;
+
+  --display: Impact, Haettenschweiler, "Arial Narrow Bold", "Franklin Gothic Bold", sans-serif;
+  --body: ui-monospace, Menlo, Consolas, "Courier New", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 15px;
+  line-height: 1.45;
+  background-color: var(--board);
+  background-image: radial-gradient(circle, var(--board-hole) 2.5px, transparent 3px);
+  background-size: 28px 28px;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 16px 48px;
+}
+
+/* Masthead: hazard tape over a stencilled sign */
+
+.masthead {
+  padding: 28px 20px 20px;
+  color: var(--safety);
+  background: var(--ink);
+  border-bottom: 12px solid transparent;
+  border-image: repeating-linear-gradient(-45deg, var(--safety) 0 14px, var(--ink) 14px 28px) 12;
+}
+
+.masthead-kicker {
+  color: var(--manila);
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-family: var(--display);
+  font-size: clamp(44px, 10vw, 84px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+/* Search panel: a clipboard sheet */
+
+.search-panel {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 20px;
+  background: var(--ledger);
+  border: 2px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
+}
+
+.search-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.search-field {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+.search-field label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.search-field input {
+  width: 100%;
+  padding: 10px 12px;
+  color: var(--ink);
+  font: inherit;
+  font-size: 17px;
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 0;
+}
+
+.search-field input::placeholder {
+  color: #6b6253;
+}
+
+.button {
+  padding: 10px 16px;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  background: var(--safety);
+  border: 2px solid var(--ink);
+  cursor: pointer;
+}
+
+.search-row .button {
+  padding-block: 12px;
+}
+
+.button:hover {
+  background: #ffd83a;
+}
+
+.button:active {
+  transform: translate(1px, 1px);
+}
+
+input:focus-visible,
+.button:focus-visible {
+  outline: 3px solid var(--out);
+  outline-offset: 2px;
+}
+
+.available-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  justify-self: start;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.available-toggle input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--in);
+}
+
+.live-query {
+  padding-top: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+  border-top: 2px dashed var(--ledger-line);
+}
+
+.result-count,
+.key-hint {
+  color: var(--ink-soft);
+}
+
+kbd {
+  padding: 0 6px;
+  font: inherit;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--manila);
+  border: 1px solid var(--ink);
+  border-bottom-width: 3px;
+}
+
+/* The board */
+
+.shelf {
+  margin-top: 28px;
+}
+
+.shelf-plate {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  margin-bottom: 20px;
+  padding: 8px 14px;
+  color: var(--manila);
+  background: var(--ink);
+}
+
+.shelf-plate h2 {
+  color: var(--safety);
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.shelf-width {
+  font-size: 13px;
+}
+
+.gear-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Grid layout: hang tags, hole and all */
+
+.gear-list.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px 20px;
+}
+
+.grid .gear-tag {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 44px 16px 16px;
+  background: var(--manila);
+  border: 1px solid var(--manila-edge);
+  clip-path: polygon(22px 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%, 0 22px);
+  filter: drop-shadow(2px 3px 0 rgba(28, 26, 23, 0.45));
+}
+
+.grid .gear-tag::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin-left: -8px;
+  background: var(--board-hole);
+  border: 2px solid var(--manila-edge);
+  border-radius: 50%;
+}
+
+.gear-tag h3 {
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+.gear-meta {
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+
+.gear-bin {
+  white-space: nowrap;
+}
+
+.gear-bin::before {
+  content: "/ ";
+}
+
+.stamp {
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 1px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 2px solid currentColor;
+}
+
+.grid .stamp {
+  transform: rotate(-3deg);
+}
+
+.stamp.in {
+  color: var(--in);
+}
+
+.stamp.out {
+  color: var(--out);
+}
+
+/* Compact layout: the ledger */
+
+.gear-list.compact {
+  background: var(--ledger);
+  border: 2px solid var(--ink);
+}
+
+.compact .gear-tag {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 12px;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--ledger-line);
+}
+
+.compact .gear-tag:last-child {
+  border-bottom: 0;
+}
+
+.compact .gear-tag h3 {
+  grid-column: 1;
+  font-size: 15px;
+}
+
+.compact .gear-meta {
+  grid-column: 1;
+}
+
+.compact .stamp {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  margin: 0;
+  font-size: 12px;
+}
+
+/* Empty state */
+
+.empty-shelf {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 24px;
+  text-align: center;
+  overflow-wrap: anywhere;
+  background: var(--manila);
+  border: 2px dashed var(--ink);
+}
+
+.empty-shelf h3 {
+  margin-bottom: 8px;
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+}
